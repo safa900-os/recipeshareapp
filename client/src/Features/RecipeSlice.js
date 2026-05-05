@@ -13,7 +13,7 @@ export const saveRecipe = createAsyncThunk(
   async (formData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/saveRecipe",
+        "https://recipeshare-server-nm69.onrender.com/saveRecipe",
         formData,
         {
           headers: {
@@ -34,7 +34,7 @@ export const getRecipes = createAsyncThunk(
   "recipes/getRecipes",
   async () => {
     try {
-      const response = await axios.get("http://localhost:3001/getRecipes");
+      const response = await axios.get("https://recipeshare-server-nm69.onrender.com/getRecipes");
       return response.data.recipes;
     } catch (error) {
       console.log(error);
@@ -47,7 +47,7 @@ export const getRecipes = createAsyncThunk(
 export const deleteRecipe = createAsyncThunk(
   "recipes/deleteRecipe",
   async (recipeId) => {
-    await axios.delete(`http://localhost:3001/deleteRecipe/${recipeId}`);
+    await axios.delete(`https://recipeshare-server-nm69.onrender.com/deleteRecipe/${recipeId}`);
     return recipeId; // Return ID to remove it from state
   }
 );
@@ -57,7 +57,7 @@ export const updateRecipe = createAsyncThunk(
   "recipes/updateRecipe",
   async (recipeData) => {
     const response = await axios.put(
-      `http://localhost:3001/updateRecipe/${recipeData.recipeId}`,
+      `https://recipeshare-server-nm69.onrender.com/updateRecipe/${recipeData.recipeId}`,
       {
         title:        recipeData.title,
         ingredients:  recipeData.ingredients,
@@ -74,7 +74,7 @@ export const likeRecipe = createAsyncThunk(
   async (recipeData) => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/likeRecipe/${recipeData.recipeId}`,
+        `https://recipeshare-server-nm69.onrender.com/likeRecipe/${recipeData.recipeId}`,
         { userId: recipeData.userId }
       );
       return response.data.recipe;

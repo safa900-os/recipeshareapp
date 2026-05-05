@@ -38,7 +38,7 @@ const Profile = () => {
     if (!newName.trim()) return alert("Name cannot be empty.");
     setUpdating(true);
     try {
-      const res = await axios.put(`http://localhost:3001/updateUserProfile/${email}`, {
+      const res = await axios.put(`https://recipeshare-server-nm69.onrender.com/updateUserProfile/${email}`, {
         name: newName,
         password: newPassword,
       });
@@ -59,7 +59,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("profilePic", image);
       const res = await axios.put(
-        `http://localhost:3001/updateProfilePic/${email}`,
+        `https://recipeshare-server-nm69.onrender.com/updateProfilePic/${email}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -91,7 +91,7 @@ const Profile = () => {
                   preview
                     ? preview
                     : profilePic
-                    ? `http://localhost:3001/${profilePic}`
+                    ? `https://recipeshare-server-nm69.onrender.com/${profilePic}`
                     : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 }
                 alt="Profile"

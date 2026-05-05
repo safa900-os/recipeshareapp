@@ -11,18 +11,18 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "users/registerUser",
   async (userData) => {
-    const response = await axios.post("http://localhost:3001/registerUser", userData);
+    const response = await axios.post("https://recipeshare-server-nm69.onrender.com/registerUser", userData);
     return response.data.user;
   }
 );
 
 export const login = createAsyncThunk("users/login", async (userData) => {
-  const response = await axios.post("http://localhost:3001/login", userData);
+  const response = await axios.post("https://recipeshare-server-nm69.onrender.com/login", userData);
   return response.data.user;
 });
 
 export const logout = createAsyncThunk("users/logout", async () => {
-  await axios.post("http://localhost:3001/logout");
+  await axios.post("https://recipeshare-server-nm69.onrender.com/logout");
 });
 
 export const userSlice = createSlice({
