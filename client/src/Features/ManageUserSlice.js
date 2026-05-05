@@ -11,7 +11,7 @@ const initialState = {
 export const getAllUsers = createAsyncThunk(
   "allUsers/getAllUsers",
   async () => {
-    const response = await axios.get("http://localhost:3001/getUsers");
+    const response = await axios.get("https://recipeshare-server-nm69.onrender.com/getUsers");
     return response.data.users;
   }
 );
