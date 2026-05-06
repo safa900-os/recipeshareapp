@@ -17,6 +17,7 @@ export const RecipesData = [
     isVegetarian: false,
     lastCooked: new Date("2024-10-15"),
     cookingTime: 45,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Biryani_at_Hyderabad%2C_India.jpg",
   },
   {
     title: "Vegetable Pasta",
@@ -28,6 +29,7 @@ export const RecipesData = [
     isVegetarian: true,
     lastCooked: new Date("2024-11-01"),
     cookingTime: 20,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_vongole.jpg/1280px-Spaghetti_vongole.jpg",
   },
   {
     title: "Omani Shuwa",
@@ -39,6 +41,7 @@ export const RecipesData = [
     isVegetarian: false,
     lastCooked: new Date("2024-09-20"),
     cookingTime: 90,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Shuwa.jpg/1280px-Shuwa.jpg",
   },
   {
     title: "Chocolate Brownies",
@@ -50,6 +53,7 @@ export const RecipesData = [
     isVegetarian: true,
     lastCooked: new Date("2024-11-10"),
     cookingTime: 25,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Chocolate_brownies.jpg/1280px-Chocolate_brownies.jpg",
   },
   {
     title: "Avocado Toast",
@@ -61,5 +65,6 @@ export const RecipesData = [
     isVegetarian: true,
     lastCooked: new Date("2024-11-12"),
     cookingTime: 20,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/2023_Avocado_Toast.jpg/1280px-2023_Avocado_Toast.jpg",
   },
 ];

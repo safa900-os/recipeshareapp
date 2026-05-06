@@ -1,9 +1,3 @@
-// ============================================================
-// seedData.js — Run this ONCE to populate MongoDB with sample data
-// Usage: node seedData.js
-// Place this file inside the server/ folder
-// ============================================================
-
 import mongoose from "mongoose";
 import bcrypt   from "bcrypt";
 import UserModel   from "./Models/UserModel.js";
@@ -25,11 +19,9 @@ const recipesData = [
     ingredients: "Chicken, Basmati Rice, Onion, Tomato, Spices, Yogurt, Oil",
     instructions: "Marinate chicken, fry onions, layer rice and chicken, cook on low heat for 30 minutes.",
     email: "jasmine@utas.edu.om",
-    category: "Lunch",
-    difficulty: "Medium",
-    isVegetarian: false,
-    lastCooked: new Date("2024-10-15"),
-    cookingTime: 45,
+    category: "Lunch", difficulty: "Medium", isVegetarian: false,
+    lastCooked: new Date("2024-10-15"), cookingTime: 45,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Biryani_at_Hyderabad%2C_India.jpg",
     likes: { count: 3, users: [] },
   },
   {
@@ -37,11 +29,9 @@ const recipesData = [
     ingredients: "Pasta, Tomato Sauce, Bell Pepper, Mushroom, Garlic, Olive Oil, Cheese",
     instructions: "Boil pasta, saute vegetables, mix with sauce, top with cheese and serve.",
     email: "marian@utas.edu.om",
-    category: "Dinner",
-    difficulty: "Easy",
-    isVegetarian: true,
-    lastCooked: new Date("2024-11-01"),
-    cookingTime: 20,
+    category: "Dinner", difficulty: "Easy", isVegetarian: true,
+    lastCooked: new Date("2024-11-01"), cookingTime: 20,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_vongole.jpg/1280px-Spaghetti_vongole.jpg",
     likes: { count: 5, users: [] },
   },
   {
@@ -49,11 +39,9 @@ const recipesData = [
     ingredients: "Lamb, Shuwa Spices, Banana Leaves, Garlic, Lemon",
     instructions: "Marinate lamb with spices overnight, wrap in banana leaves, slow cook underground for 24 hours.",
     email: "ahmed@utas.edu.om",
-    category: "Dinner",
-    difficulty: "Hard",
-    isVegetarian: false,
-    lastCooked: new Date("2024-09-20"),
-    cookingTime: 90,
+    category: "Dinner", difficulty: "Hard", isVegetarian: false,
+    lastCooked: new Date("2024-09-20"), cookingTime: 90,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Shuwa.jpg/1280px-Shuwa.jpg",
     likes: { count: 7, users: [] },
   },
   {
@@ -61,11 +49,9 @@ const recipesData = [
     ingredients: "Flour, Cocoa Powder, Sugar, Butter, Eggs, Vanilla, Chocolate Chips",
     instructions: "Mix dry ingredients, melt butter with chocolate, combine all, bake at 180C for 25 minutes.",
     email: "sara@utas.edu.om",
-    category: "Dessert",
-    difficulty: "Easy",
-    isVegetarian: true,
-    lastCooked: new Date("2024-11-10"),
-    cookingTime: 25,
+    category: "Dessert", difficulty: "Easy", isVegetarian: true,
+    lastCooked: new Date("2024-11-10"), cookingTime: 25,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Chocolate_brownies.jpg/1280px-Chocolate_brownies.jpg",
     likes: { count: 4, users: [] },
   },
   {
@@ -73,11 +59,9 @@ const recipesData = [
     ingredients: "Bread, Avocado, Lemon, Salt, Pepper, Chili Flakes, Egg",
     instructions: "Toast bread, mash avocado with lemon and salt, spread on toast, top with fried egg.",
     email: "omar@utas.edu.om",
-    category: "Breakfast",
-    difficulty: "Easy",
-    isVegetarian: true,
-    lastCooked: new Date("2024-11-12"),
-    cookingTime: 20,
+    category: "Breakfast", difficulty: "Easy", isVegetarian: true,
+    lastCooked: new Date("2024-11-12"), cookingTime: 20,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/2023_Avocado_Toast.jpg/1280px-2023_Avocado_Toast.jpg",
     likes: { count: 2, users: [] },
   },
 ];
@@ -86,13 +70,9 @@ const seedDatabase = async () => {
   try {
     await mongoose.connect(connectString);
     console.log("MongoDB Connected");
-
-    // Clear existing data
     await UserModel.deleteMany({});
     await RecipeModel.deleteMany({});
     console.log("Cleared existing data");
-
-    // Insert users with hashed passwords
     const hashedUsers = await Promise.all(
       usersData.map(async (user) => ({
         ...user,
@@ -101,11 +81,8 @@ const seedDatabase = async () => {
     );
     await UserModel.insertMany(hashedUsers);
     console.log("✅ 5 Users inserted");
-
-    // Insert recipes
     await RecipeModel.insertMany(recipesData);
-    console.log("✅ 5 Recipes inserted");
-
+    console.log("✅ 5 Recipes inserted with images");
     console.log("🎉 Database seeded successfully!");
     process.exit(0);
   } catch (error) {
