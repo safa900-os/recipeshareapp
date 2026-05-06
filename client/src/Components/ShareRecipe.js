@@ -7,16 +7,15 @@ const ShareRecipe = () => {
   const dispatch = useDispatch();
   const email    = useSelector((state) => state.users.user.email);
 
-  const [title, setTitle]             = useState("");
-  const [ingredients, setIngredients] = useState("");
+  const [title, setTitle]               = useState("");
+  const [ingredients, setIngredients]   = useState("");
   const [instructions, setInstructions] = useState("");
-  const [image, setImage]             = useState(null);
+  const [imageUrl, setImageUrl]         = useState(""); // URL instead of file upload
 
-  // ── New fields for requirements ──────────────────────────────
-  const [category, setCategory]       = useState("Lunch");      // Dropdown
-  const [difficulty, setDifficulty]   = useState("Easy");       // Radio
-  const [isVegetarian, setIsVegetarian] = useState(false);      // Checkbox
-  const [lastCooked, setLastCooked]   = useState("");           // Date
+  const [category, setCategory]         = useState("Lunch");
+  const [difficulty, setDifficulty]     = useState("Easy");
+  const [isVegetarian, setIsVegetarian] = useState(false);
+  const [lastCooked, setLastCooked]     = useState("");
 
   const handleShare = async () => {
     if (!title.trim() || !ingredients.trim() || !instructions.trim()) {
@@ -33,13 +32,12 @@ const ShareRecipe = () => {
     formData.append("difficulty",   difficulty);
     formData.append("isVegetarian", isVegetarian);
     formData.append("lastCooked",   lastCooked);
-    if (image) formData.append("image", image);
+    formData.append("imageUrl",     imageUrl); // Send URL instead of file
 
     dispatch(saveRecipe(formData));
 
-    // Reset all fields
     setTitle(""); setIngredients(""); setInstructions("");
-    setImage(null); setCategory("Lunch"); setDifficulty("Easy");
+    setImageUrl(""); setCategory("Lunch"); setDifficulty("Easy");
     setIsVegetarian(false); setLastCooked("");
   };
 
@@ -47,13 +45,11 @@ const ShareRecipe = () => {
     <Container style={styles.container}>
       <h5 style={styles.heading}>🍳 Share a Recipe</h5>
 
-      {/* Recipe Title — TextBox */}
       <FormGroup>
         <Label style={styles.label}>Recipe Title</Label>
         <Input type="text" placeholder="e.g. Chicken Biryani..." value={title} onChange={(e) => setTitle(e.target.value)} />
       </FormGroup>
 
-      {/* Category — Dropdown */}
       <FormGroup>
         <Label style={styles.label}>Category</Label>
         <Input type="select" value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -65,7 +61,6 @@ const ShareRecipe = () => {
         </Input>
       </FormGroup>
 
-      {/* Difficulty — Radio */}
       <FormGroup>
         <Label style={styles.label}>Difficulty Level</Label>
         <div style={styles.radioGroup}>
@@ -85,7 +80,6 @@ const ShareRecipe = () => {
         </div>
       </FormGroup>
 
-      {/* Vegetarian — Checkbox */}
       <FormGroup check style={{ marginBottom: "14px" }}>
         <Label check style={styles.label}>
           <Input
@@ -98,28 +92,39 @@ const ShareRecipe = () => {
         </Label>
       </FormGroup>
 
-      {/* Last Cooked — Date */}
       <FormGroup>
         <Label style={styles.label}>Last Cooked Date</Label>
         <Input type="date" value={lastCooked} onChange={(e) => setLastCooked(e.target.value)} />
       </FormGroup>
 
-      {/* Ingredients — Textarea */}
       <FormGroup>
         <Label style={styles.label}>Ingredients</Label>
         <Input type="textarea" placeholder="List the ingredients..." value={ingredients} onChange={(e) => setIngredients(e.target.value)} rows={3} />
       </FormGroup>
 
-      {/* Instructions — Textarea */}
       <FormGroup>
         <Label style={styles.label}>Instructions</Label>
         <Input type="textarea" placeholder="Describe the steps..." value={instructions} onChange={(e) => setInstructions(e.target.value)} rows={3} />
       </FormGroup>
 
-      {/* Image Upload */}
+      {/* Image URL instead of file upload */}
       <FormGroup>
-        <Label style={styles.label}>Recipe Photo (Optional)</Label>
-        <Input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+        <Label style={styles.label}>Recipe Photo URL (Optional)</Label>
+        <Input
+          type="text"
+          placeholder="https://example.com/image.jpg"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+        {/* Preview the image if URL is entered */}
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Preview"
+            style={styles.preview}
+            onError={(e) => e.target.style.display = "none"}
+          />
+        )}
       </FormGroup>
 
       <Button onClick={handleShare} style={styles.shareBtn}>
@@ -130,12 +135,13 @@ const ShareRecipe = () => {
 };
 
 const styles = {
-  container:   { backgroundColor: "#fffdf8", padding: "20px", borderRadius: "10px", marginTop: "20px", border: "1px solid #e8d9c0" },
-  heading:     { color: "#4a2c0c", fontFamily: "Georgia, serif", marginBottom: "16px" },
-  label:       { fontWeight: "600", color: "#555", fontFamily: "Arial, sans-serif", fontSize: "13px" },
-  radioGroup:  { display: "flex", gap: "20px", marginTop: "6px" },
-  radioLabel:  { display: "flex", alignItems: "center", fontWeight: "normal", cursor: "pointer" },
-  shareBtn:    { backgroundColor: "#8a6a3a", border: "none", borderRadius: "6px", fontWeight: "600", padding: "10px 24px" },
+  container:  { backgroundColor: "#fffdf8", padding: "20px", borderRadius: "10px", marginTop: "20px", border: "1px solid #e8d9c0" },
+  heading:    { color: "#4a2c0c", fontFamily: "Georgia, serif", marginBottom: "16px" },
+  label:      { fontWeight: "600", color: "#555", fontFamily: "Arial, sans-serif", fontSize: "13px" },
+  radioGroup: { display: "flex", gap: "20px", marginTop: "6px" },
+  radioLabel: { display: "flex", alignItems: "center", fontWeight: "normal", cursor: "pointer" },
+  shareBtn:   { backgroundColor: "#8a6a3a", border: "none", borderRadius: "6px", fontWeight: "600", padding: "10px 24px" },
+  preview:    { marginTop: "10px", width: "120px", height: "90px", objectFit: "cover", borderRadius: "8px", border: "1px solid #e8d9c0" },
 };
 
 export default ShareRecipe;

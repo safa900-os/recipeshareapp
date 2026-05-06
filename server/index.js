@@ -103,29 +103,25 @@ app.put("/updateProfilePic/:email", upload.single("profilePic"), async (req, res
 /* ── SAVE RECIPE WITH CALCULATIONS (Requirement 3) ── */
 app.post("/saveRecipe", upload.single("image"), async (req, res) => {
   try {
-    const { title, ingredients, instructions, email, category, difficulty, isVegetarian, lastCooked } = req.body;
+    const { title, ingredients, instructions, email, category, difficulty, isVegetarian, lastCooked, imageUrl } = req.body;
     const imagePath = req.file ? req.file.path : null;
 
-    // ── SERVER-SIDE BUSINESS LOGIC & CALCULATIONS ──────────────
     // Calculate estimated cooking time based on difficulty level
     const difficultyTimeMap = { Easy: 20, Medium: 45, Hard: 90 };
     const cookingTime = difficultyTimeMap[difficulty] || 30;
 
-    // Count number of ingredients (split by comma or newline)
+    // Count ingredients and add extra time
     const ingredientCount = ingredients
       .split(/,|\n/)
       .map((i) => i.trim())
       .filter((i) => i.length > 0).length;
-
-    // Add extra time for recipes with many ingredients (5 min per extra ingredient over 5)
     const extraTime = ingredientCount > 5 ? (ingredientCount - 5) * 5 : 0;
     const totalCookingTime = cookingTime + extraTime;
 
-    // Validate lastCooked date — must not be in the future
+    // Validate lastCooked date
     if (lastCooked && new Date(lastCooked) > new Date()) {
       return res.status(400).json({ error: "Last cooked date cannot be in the future." });
     }
-    // ──────────────────────────────────────────────────────────
 
     const recipe = new RecipeModel({
       title,
@@ -133,11 +129,12 @@ app.post("/saveRecipe", upload.single("image"), async (req, res) => {
       instructions,
       email,
       image:        imagePath,
+      imageUrl:     imageUrl || null, // ✅ Save image URL
       category,
       difficulty,
       isVegetarian: isVegetarian === "true" || isVegetarian === true,
       lastCooked:   lastCooked || null,
-      cookingTime:  totalCookingTime, // Calculated value stored in DB
+      cookingTime:  totalCookingTime,
     });
 
     const savedRecipe = await recipe.save();
@@ -202,8 +199,6 @@ app.delete("/deleteRecipe/:recipeId", async (req, res) => {
 app.put("/updateRecipe/:recipeId", async (req, res) => {
   try {
     const { title, ingredients, instructions, category, difficulty, isVegetarian, lastCooked } = req.body;
-
-    // Recalculate cooking time on update as well
     const difficultyTimeMap = { Easy: 20, Medium: 45, Hard: 90 };
     const cookingTime = difficultyTimeMap[difficulty] || 30;
     const ingredientCount = ingredients.split(/,|\n/).filter((i) => i.trim()).length;

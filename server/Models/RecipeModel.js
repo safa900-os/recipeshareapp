@@ -7,13 +7,14 @@ const RecipeSchema = mongoose.Schema(
     instructions: { type: String,  required: true },
     email:        { type: String,  required: true },
     image:        { type: String },
+    imageUrl:     { type: String }, // ✅ URL for external images
 
     // ── New fields (Requirements 2, 3, 5) ──────────────────────
-    category:     { type: String,  default: "Lunch" },           // Dropdown
-    difficulty:   { type: String,  default: "Easy" },            // Radio
-    isVegetarian: { type: Boolean, default: false },             // Checkbox — Boolean ✅
-    lastCooked:   { type: Date },                                // Date ✅
-    cookingTime:  { type: Number,  default: 0 },                 // Number ✅ (calculated on server)
+    category:     { type: String,  default: "Lunch" },
+    difficulty:   { type: String,  default: "Easy" },
+    isVegetarian: { type: Boolean, default: false },
+    lastCooked:   { type: Date },
+    cookingTime:  { type: Number,  default: 0 },
 
     likes: {
       count: { type: Number,   default: 0 },

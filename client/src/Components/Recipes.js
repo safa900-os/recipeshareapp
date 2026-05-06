@@ -112,7 +112,7 @@ const Recipes = ({ searchQuery = "" }) => {
               <td>
                 {recipe.image ? (
                   <img
-                    src={`https://recipeshare-server-nm69.onrender.com/${recipe.image}`}
+                    src={recipe.imageUrl || `https://recipeshare-server-nm69.onrender.com/${recipe.image}`}
                     alt={recipe.title}
                     style={{ width: "85px", height: "65px", objectFit: "cover", borderRadius: "6px" }}
                   />
